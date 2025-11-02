@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="max-w-lg mx-auto mt-20  shadow-md rounded-xl p-8 text-center">
+
+    {% if person.propic %}
+      <img src="{{ person.propic.url }}" alt="{{ person.name }}" class="w-40 h-40 mx-auto rounded-full object-cover mb-6">
+    {% else %}
+      <img src="{% static 'images/imagen6.jpg' %}" alt="{{ person.name }}" class="w-40 h-40 mx-auto rounded-full object-cover mb-6">
+    {% endif %}
+
+    <h1 class="text-4xl font-bold text-gray-800 mb-4">{{ person.name }}</h1>
+    <p class="text-gray-600 mb-4">Fecha de nacimiento: {{ person.birth }}</p>
+
+    <a href="{% url 'apppage' %}" 
+       class="inline-block mt-4 px-6 py-2 bg-blue-60 rounded-lg hover:bg-blue-700 transition">
+       Volver
+    </a>
+  </div>
+{% endblock content %}

@@ -1,0 +1,25 @@
+# Django build
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+
+# SQLite database
+db.sqlite3
+
+# Media uploads
+media/
+
+# Cache
+*.log
+
+# VSCode
+.vscode/
+
+# Python
+*.egg-info/
+*.egg

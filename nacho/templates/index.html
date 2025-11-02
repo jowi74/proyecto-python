@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <title>homepage</title>
+    <meta charset="UTF-8">
+{% block content %}
+<body>
+    <div>
+        <section>
+            <h1 class="flex justify-center font-bold text-5xl">Titulo de una pagina para fines no demostrativos</h1>
+            <p class="flex justify-center">Este texto esta hecho para fines demostrativos</p>
+            <img src="{% static 'images/imagen6.jpg' %}" class="scale-50 block mx-auto" >
+        </section>
+    </div>
+</body>
+{% endblock content %}
+<html>
