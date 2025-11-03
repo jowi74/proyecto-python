@@ -24,7 +24,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.homepage, name='homepage'),
-    path('apppage', include('nacho2.urls')),
+    path('apppage/', include('nacho2.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
     path('users/', include('users.urls')),
 

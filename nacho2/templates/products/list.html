@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<div>
+    <h1>Productos</h1>
+
+    <form action="{% url 'products_list' %}" method="post">
+        {% csrf_token %} {{ form }}
+        <button>Publica tu producto</button>
+    </form>
+
+    <ul>
+        {% for p in product_list %}
+        <li>
+            <h2>{{ p.name }}</h2>
+            <p>Precio: {{ p.price }} €</p>
+            <p>{{ p.description }}</p>
+            <p>Categoria: {{ p.get_category_display }}</p>
+            <p>Por: {{ p.user.username }}</p>
+            <p>Fecha: {{ p.date_published }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
