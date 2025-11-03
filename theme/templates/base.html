@@ -1,30 +1,44 @@
-<!DOCTYPE html>
-{% load static tailwind_tags %} {%load static%}
+<!DOCTYPE html> {% load static tailwind_tags %} {% load static %}
 <html>
+
 <head>
     <title>
-        {% block title %}
-            default content 
-        {% endblock title %}
+        {% block title %} default content {% endblock title %}
     </title>
-    <meta charset="UTF-8">
-    {% tailwind_css %}
+    <meta charset="UTF-8"> {% tailwind_css %}
 </head>
 
 <body>
     <header class="bg-black">
-        <nav class="flex justify-center space-x-6 py-4">
-                <a href="{% url 'homepage' %}" class="text-2xl text-white font-bold hover:text-fuchsia-500"> Home</a>
-                <a href="{% url 'apppage' %}" class="text-2xl text-white font-bold hover:text-fuchsia-500"> Persons</a>
+        <nav class="flex justify-center space-x-6 py-4 items-center">
+
+            <a href="{% url 'homepage' %}" class="text-2xl text-white font-bold hover:text-fuchsia-500">Home</a>
+            <a href="{% url 'apppage' %}" class="text-2xl text-white font-bold hover:text-fuchsia-500">Persons</a> {% if request.user.is_authenticated %}
+
+            <span class="text-2xl text-white font-bold">Logged as: {{ request.user.username }}</span>
+
+            <form action="{% url 'users:logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="text-2xl text-white font-bold hover:text-fuchsia-500">
+        Logout
+    </button>
+            </form>
+
+
+            {% else %}
+
+            <a href="{% url 'users:login' %} " class="text-2xl text-white font-bold hover:text-fuchsia-500 ">Login</a>
+            <a href="{% url 'users:register' %} " class="text-2xl text-white font-bold hover:text-fuchsia-500 ">Register</a> {% endif %}
+
         </nav>
     </header>
-<main>
-    {% block content %}
-        Arriba estan los botone
-        {% block person %}
+
+    <main>
+        {% block content %} Arriba estan los botone {% block person %}
         <div></div>
-        {% endblock %}
-    {% endblock content%}
-</main>
+        {% endblock %} {% endblock content %}
+    </main>
+
 </body>
+
 </html>
