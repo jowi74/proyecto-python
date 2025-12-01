@@ -27,6 +27,7 @@ urlpatterns = [
     path('apppage/', include('nacho2.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
     path('users/', include('users.urls')),
+    path('games/', include('games.urls')),
 
 ]
 

@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block content %}
+
+<h1 class="text-2xl font-bold mb-4 text-center">Crear nueva sala</h1>
+
+{% if error %}
+<p class="text-red-600 font-semibold text-center mb-4">
+    {{ error }}
+</p>
+{% endif %}
+
+<form action="" method="post" class="max-w-md mx-auto bg-white p-4 rounded shadow">
+    {% csrf_token %}
+    <label class="block mb-2 font-semibold">Nombre de la sala:</label>
+    <input type="text" name="room_name" class="w-full border p-2 rounded mb-4" required>
+
+    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+        Crear sala
+    </button>
+</form>
+
+<div class="mt-4 text-center">
+    <a href="{% url 'games_list' %}" class="text-blue-600 hover:underline">Volver</a>
+</div>
+
+{% endblock %}

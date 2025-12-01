@@ -37,12 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
+    'channels',
     'django.contrib.staticfiles',
     'nacho2',
     'tailwind',
     'theme',
     'django_browser_reload',
-    'users'
+    'users',
+    'games',
+
 ]
 
 MIDDLEWARE = [
@@ -64,7 +68,10 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'nacho','static')]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'nacho','templates')],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),          # <--- carpeta global
+            os.path.join(BASE_DIR, 'nacho', 'templates'), # <--- plantilla antigua
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,6 +83,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'nacho.wsgi.application'
 
@@ -139,3 +147,19 @@ NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 MEDIA_URL = 'media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+ASGI_APPLICATION = 'nacho.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+
+from django.forms.renderers import TemplatesSetting
+
+class MyDefaultFormRenderer(TemplatesSetting):
+    form_template_name = "default_form_snippet.html"

@@ -23,9 +23,9 @@ def product_list_view(request):
         form = UploadProduct(request.POST)
         if form.is_valid():
             newproduct = form.save(commit=False)
-            newproduct.user = request.user  # asigna usuario
+            newproduct.user = request.user
             newproduct.save()
-            return redirect('products_list')  # redirecciona
+            return redirect('products_list')
     else:
         form = UploadProduct()
 

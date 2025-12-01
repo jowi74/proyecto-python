@@ -1,0 +1,90 @@
+{% extends "base.html" %} {% block content %}
+
+<h1 class="text-3xl font-bold mb-2 text-center">
+    Sala: {{ game.room_name }}
+</h1>
+
+<p class="text-center text-gray-600 mb-2">
+    Partida {{ game.id }}
+</p>
+
+{% if game.player2 == None and user != game.owner %}
+<div class="text-center mb-6">
+    <a href="{% url 'game_join' game_id=game.id %}" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+        Unirse como jugador 2
+    </a>
+</div>
+{% endif %} {% if game.player2 == None %}
+<p class="text-center text-xl text-gray-700 mb-6">
+    Esperando a un segundo jugador...
+</p>
+{% else %} {% if game.state == "ACTIVE" %}
+<p class="text-center text-gray-700 mb-6">
+    Turno de: {% if game.active_player == 1 %}
+    <span class="font-semibold text-blue-700">Jugador 1 (X)</span> {% else %}
+    <span class="font-semibold text-red-700">Jugador 2 (O)</span> {% endif %}
+</p>
+{% else %}
+<p class="text-center text-2xl font-bold mb-6">
+    {% if game.state == "WIN_P1" %}
+    <span class="text-blue-700">Jugador 1 (X) ha ganado</span> {% elif game.state == "WIN_P2" %}
+    <span class="text-red-700">Jugador 2 (O) ha ganado</span> {% elif game.state == "TIE" %}
+    <span class="text-gray-700">Empate</span> {% endif %}
+</p>
+{% endif %} {% endif %}
+
+<div class="mx-auto w-48 grid grid-cols-3 gap-2">
+    {% for cell in game.board %}
+    <div class="border border-gray-400 p-6 text-center text-2xl rounded-lg bg-white shadow-sm">
+
+        {% if cell == "_" and game.state == "ACTIVE" and game.player2 != None and game.active_player == 1 and user == game.player1 or cell == "_" and game.state == "ACTIVE" and game.player2 != None and game.active_player == 2 and user == game.player2 %}
+
+
+        <button onclick="sendMove({{ forloop.counter0 }})" class="w-full h-full text-gray-600 hover:text-black font-bold text-2xl"> 0 </button> {% else %}
+        <span class="font-bold text-black">{{ cell }}</span> {% endif %}
+
+    </div>
+    {% endfor %}
+</div>
+
+
+<div class="mt-6 flex justify-center space-x-6">
+    <a href="{% url 'games_list' %}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+        Volver
+    </a>
+
+    <a href="{% url 'game_delete' game_id=game.id %}" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition" onclick="return confirm('¿Seguro que quieres borrar esta partida?');">
+        Cerrar sala
+    </a>
+</div>
+
+{{ game.id|json_script:"game_id" }} {{ game.board|json_script:"board" }} {{ game.active_player|json_script:"active_player" }} {{ game.state|json_script:"game_state" }} {{ game.player1.username|json_script:"player1" }}
+
+
+<script>
+    const room_id = JSON.parse(document.getElementById("game_id").textContent);
+    const username = "{{ request.user.username }}";
+
+    const gameSocket = new WebSocket(
+        "ws://" + window.location.host + "/ws/tictactoe/" + room_id + "/"
+    );
+
+    gameSocket.onopen = function() {
+        console.log("WebSocket conectado");
+    };
+
+    gameSocket.onmessage = function(e) {
+        console.log("Mensaje recibido:", e.data);
+        location.reload();
+    };
+
+    function sendMove(position) {
+        console.log("Enviando jugada:", position);
+        gameSocket.send(JSON.stringify({
+            "position": position,
+            "username": username
+        }));
+    }
+</script>
+
+{% endblock %}
