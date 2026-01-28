@@ -4,22 +4,22 @@ from .models import Game
 
 @login_required(login_url="/users/login/")
 def game_list_view(request):
-    games = Game.objects.filter(state="ACTIVE")
-    return render(request, 'games/list.html', {'games': games})
+    games = Game.objects.filter(state="ACTIVE") #se filtran las partidas que anden activas  
+    return render(request, 'games/list.html', {'games': games}) #se renderiza la plantilla y muestra las partidas
 
 
 @login_required(login_url="/users/login/")
 def game_new_view(request):
 
     if request.method == "POST":
-        room_name = request.POST.get("room_name")
+        room_name = request.POST.get("room_name") #se obtiene el nombre de la sala
 
-        if Game.objects.filter(room_name=room_name).exists():
-            return render(request, "games/name.html", {
+        if Game.objects.filter(room_name=room_name).exists(): #se verifica que el nombre no exista ya
+            return render(request, "games/name.html", { #si ya existe se muestra un error
                 "error": "Ese nombre ya está en uso."
             })
 
-        new_game = Game.objects.create(
+        new_game = Game.objects.create(#creamos la partida  
             owner=request.user,
             room_name=room_name,
             player1=request.user,
@@ -37,7 +37,6 @@ def game_new_view(request):
 def game_detail_view(request, game_id):
     game = get_object_or_404(Game, id=game_id)
 
-    # Puede entrar si es jugador1, jugador2 o si player2 sigue libre
     if request.user in [game.player1, game.player2] or game.player2 is None:
         return render(request, 'games/detail.html', {'game': game})
 

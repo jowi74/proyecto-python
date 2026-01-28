@@ -9,7 +9,7 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect("games_list")
+            return redirect("homepage")
     else:
         form = CustomUserCreationForm()
 
@@ -21,7 +21,7 @@ def login_view(request):
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            return redirect('apppage')
+            return redirect('homepage')
     else:
         form = AuthenticationForm()
 
