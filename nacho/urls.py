@@ -29,7 +29,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('games/', include('games.urls')),
     path('api/', include('api.urls')),
-
+    path("catfacts/", include("catfacts.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL,
