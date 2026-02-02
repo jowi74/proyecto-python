@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chatbot</title>
+</head>
+
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+
+    <div class="bg-white p-6 rounded-xl shadow-md w-full max-w-xl">
+        <h1 class="text-2xl font-bold mb-4 text-center">Chatbot</h1>
+
+        <form method="post" class="space-y-4">
+            {% csrf_token %} {{ form.prompt }}
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+            Enviar
+        </button>
+        </form>
+
+        {% if response %}
+        <div class="mt-6 p-4 bg-gray-100 rounded">
+            <h2 class="font-semibold mb-2">Respuesta:</h2>
+            <p>{{ response }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>

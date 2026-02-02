@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -49,7 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'catfacts',
-
+    'chatbot',
 ]
 
 MIDDLEWARE = [
@@ -161,6 +162,8 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+load_dotenv()
 
 from django.forms.renderers import TemplatesSetting
 

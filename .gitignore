@@ -23,3 +23,5 @@ media/
 # Python
 *.egg-info/
 *.egg
+
+.env
