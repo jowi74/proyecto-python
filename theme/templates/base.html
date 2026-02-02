@@ -6,6 +6,20 @@
         {% block title %} default content {% endblock title %}
     </title>
     <meta charset="UTF-8"> {% tailwind_css %}
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS_MEASUREMENT_ID }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', '{{ GOOGLE_ANALYTICS_MEASUREMENT_ID }}');
+    </script>
+
 </head>
 
 <body>
@@ -23,7 +37,6 @@
         Logout
     </button>
             </form>
-
 
             {% else %}
 
